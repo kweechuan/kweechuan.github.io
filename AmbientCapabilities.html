@@ -1,36 +1,31 @@
 <html>
-<body>
-Earlier, I got really puzzled how did splunk forwarder, running as splunk user, gets to read a file owned by root. Typically, thought the userid splunk would be granted the persmission, for example, by adding splunk userid in /etc/group, or chmod with read permission all the way to the file.
-<p/>
-The easy way to check/test is to su to splunk user, and attempt to read the file.  Result: The file is not "reachable" nor "readable".
-And then, I check the facl, and this is not used.
-<p/>
-So something else is at work here.  
-
-<p/>
-<pre>
-
+  <body>
+    Earlier, I got really puzzled how did splunk forwarder, running as splunk user, gets to read a file owned by root. Typically, thought the userid splunk would be granted the persmission, for example, by adding splunk userid in /etc/group, or chmod with read permission all the way to the file.
+    <p/>
+    The easy way to check/test is to su to splunk user, and attempt to read the file.  Result: The file is not "reachable" nor "readable". facl is not used as well.
+    <p/>
+    So something else is at work here.
+    <pre>
 $ less /etc/systemd/system/SplunkForwarder.service
 :
 AmbientCapabilities=CAP_DAC_READ_SEARCH
 :
-
-</pre>
-<pre>
+    </pre>
+    <pre>
 # cat /proc/5490/status | grep Cap
 CapInh: 0000000000000004
 CapPrm: 0000000000000004
 CapEff: 0000000000000004
 CapBnd: 000001ffffffffff
 CapAmb: 0000000000000004
-</pre>
-<p/>
+    </pre>
 
-<quote>"pA obeys the invariant that no bit can ever be set in pA if it is not set in both pP and pI.  Dropping a bit from pP or pI drops that bit from pA."</quote>
-  
-References:
-<li/>https://community.splunk.com/t5/Security/How-to-get-quot-splunk-quot-user-to-read-quot-root-quot-user/m-p/133238/highlight/true#M4070
-<li/>https://book.hacktricks.xyz/linux-hardening/privilege-escalation/linux-capabilities
-<li/>https://bugzilla.redhat.com/show_bug.cgi?id=1950187#c7
-</body>
+    <quote>"pA obeys the invariant that no bit can ever be set in pA if it is not set in both pP and pI.  Dropping a bit from pP or pI drops that bit from pA."</quote>
+    <p/>      
+    References:
+    <li/>https://community.splunk.com/t5/Security/How-to-get-quot-splunk-quot-user-to-read-quot-root-quot-user/m-p/133238/highlight/true#M4070
+    <li/>https://book.hacktricks.xyz/linux-hardening/privilege-escalation/linux-capabilities
+    <li/>https://bugzilla.redhat.com/show_bug.cgi?id=1950187#c7
+
+  </body>
 </html>
