@@ -8,22 +8,22 @@ And then, I check the facl, and this is not used.
 So something else is at work here.  
 
 <p/>
-<text>
+<pre>
 
 $ less /etc/systemd/system/SplunkForwarder.service
 :
 AmbientCapabilities=CAP_DAC_READ_SEARCH
 :
 
-</text>
-<text>
+</pre>
+<pre>
 # cat /proc/5490/status | grep Cap
 CapInh: 0000000000000004
 CapPrm: 0000000000000004
 CapEff: 0000000000000004
 CapBnd: 000001ffffffffff
 CapAmb: 0000000000000004
-</text>
+</pre>
 <p/>
 References:
 <li/>https://community.splunk.com/t5/Security/How-to-get-quot-splunk-quot-user-to-read-quot-root-quot-user/m-p/133238/highlight/true#M4070
