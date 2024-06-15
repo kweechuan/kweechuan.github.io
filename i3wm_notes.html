@@ -14,9 +14,34 @@
       apt-get install i3
       </pre>
 
-    <p>Wifi</p>
-    <p>Audio</p>
-    <p>Timezone</p>
-    <p>Trackpad Natural Scrolling</p>
+    <h2>Desktop Manager with lightdm</h2>
+    <pre>
+      sudo apt-get install lightdm
+    </pre>
+    <h2>Wifi</h2>
+    <p>Disable netplan, use NetworkManager</p>
+    <pre>
+       cd /etc/NetworkManager/conf.d/
+       vim manage-all.conf
+       sudo systemctl disable --now systemd-networkd.service systemd-networkd.socket networkd-dispatcher.service && sudo systemctl restart NetworkManager
+       systemctl enable NetworkManager
+       reboot
+    </pre>
+    <h2>Audio</h2>
+    <pre>
+      systemctl --user enable pulseaudio
+      systemctl --user start pulseaudio
+
+    </pre>
+    <h2>Timezone</h2>
+    <pre>
+      sudo timedatectl set-timezone Asia/Singapore
+    </pre>
+    <h2>Trackpad Natural Scrolling</h2>
+    <pre>
+     
+       cd /usr/share/X11/xorg.conf.d/
+       vim 40-libinput.conf
+    </pre>
   </body>
 </html>
