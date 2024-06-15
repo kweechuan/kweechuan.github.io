@@ -23,10 +23,11 @@
     <pre>
        cd /etc/NetworkManager/conf.d/
        vim manage-all.conf
-       sudo systemctl disable --now systemd-networkd.service systemd-networkd.socket networkd-dispatcher.service && sudo systemctl restart NetworkManager
+       systemctl disable --now systemd-networkd.service systemd-networkd.socket networkd-dispatcher.service
        systemctl enable NetworkManager
-       reboot
+       systemctl restart NetworkManager
     </pre>
+    <p>reboot and check</p>
     <h2>Audio</h2>
     <i>https://www.linux.org/threads/dummy-output-ubu-22-10-please-help-im-devastated.41066/post-164541</i>
     <pre>
