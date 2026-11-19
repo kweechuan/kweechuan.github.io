@@ -1,0 +1,37 @@
+Cause LSO on host machine, TSO on VM Ubuntu
+
+Disable LSO on host machine
+
+PS C:\> Get-NetAdapterLso -Name "vEthernet (passthrough)"
+
+Name                           Version         V1IPv4Enabled  IPv4Enabled  IPv6Enabled
+----                           -------         -------------  -----------  -----------
+vEthernet (passthrough)        LSO Version 2   False          True         True
+
+
+PS C:\> Disable-NetAdapterLso -Name "vEthernet (passthrough)"
+PS C:\> Get-NetAdapterLso -Name "vEthernet (passthrough)"
+
+Name                           Version         V1IPv4Enabled  IPv4Enabled  IPv6Enabled
+----                           -------         -------------  -----------  -----------
+vEthernet (passthrough)        LSO Version 2   False          False        False
+
+
+Disable TSO on Ubuntu VM
+$ sudo ethtool -k eth0 | grep -E 'tcp-segmentation-offload|tx-tcp-segmentation|tx-tcp6-segmentation'
+tcp-segmentation-offload: on
+    tx-tcp-segmentation: on
+    tx-tcp6-segmentation: on
+generic-segmentation-offload: on
+$ sudo ethtool -K eth0 tso off
+$ sudo ethtool -k eth0 | grep -E 'tcp-segmentation-offload|tx-tcp-segmentation|tx-tcp6-segmentation'
+tcp-segmentation-offload: off
+    tx-tcp-segmentation: off
+    tx-tcp6-segmentation: off
+generic-segmentation-offload: on
+
+to make persistent on Ubuntu VM
+$ nmcli -f ethtool.feature-tso connection show "Wired connection 1"
+$ sudo nmcli connection modify "Wired connection 1" ethtool.feature-tso off
+$ nmcli -g ethtool.feature-tso connection show "Wired connection 1"
+off
